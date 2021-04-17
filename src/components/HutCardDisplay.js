@@ -1,0 +1,108 @@
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import HutCard from "./HutCard";
+
+const TabPanel = (props) => {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`scrollable-auto-tabpanel-${index}`}
+      aria-labelledby={`scrollable-auto-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+const panelHolderStyle = {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrao: 'wrap',
+    justifyContent: 'space-evenly',
+    alignContent: 'center'
+  };
+
+const a11yProps = (index) => {
+  return {
+    id: `scrollable-auto-tab-${index}`,
+    'aria-controls': `scrollable-auto-tabpanel-${index}`,
+  };
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
+
+
+const HutCardDisplay = (props) => {
+  const classes = useStyles();
+  const [value, setValue] = useState(0);
+  const [datePage, setDatePage] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    setDatePage(newValue);
+  };
+
+  return (
+    <div className={classes.root}>
+      <AppBar position="static" color="default">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="scrollable"
+          scrollButtons="auto"
+        >
+        {props.data.items.map((item, index) => (
+          <Tab label={item.key} {...a11yProps(index)} /> 
+        ))};
+        </Tabs>
+      </AppBar>
+      <div style={panelHolderStyle}>
+      {props.data.items[datePage].data.map((item, index) => (
+        <TabPanel value={value} index={datePage}>
+          <HutCard
+            key={index}
+            hutName={item.hutName}
+            freeBeds={item.hutData}
+            />
+        </TabPanel>
+        ))};
+    </div>
+    </div>
+  );
+};
+
+
+export default HutCardDisplay;
+
+
+
+
+

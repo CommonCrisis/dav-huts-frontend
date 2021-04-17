@@ -39,7 +39,13 @@ const MenuProps = {
 
 const countries = ["Germany", "Switzerland", "Austria"];
 
-export default function MultipleSelect() {
+const MultipleSelect = () => {
+  const dateStyles = {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  };
   const classes = useStyles();
   const [countryName, setCountryName] = React.useState([]);
 
@@ -48,7 +54,7 @@ export default function MultipleSelect() {
   };
 
   return (
-    <div>
+    <div style={dateStyles}>
       <FormControl className={classes.formControl}>
         <InputLabel id="Select da country">Select countrie(s)</InputLabel>
         <Select
@@ -71,4 +77,6 @@ export default function MultipleSelect() {
       </FormControl>
     </div>
   );
-}
+};
+
+export default MultipleSelect;

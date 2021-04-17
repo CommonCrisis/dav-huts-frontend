@@ -1,36 +1,19 @@
 import React, { useState } from "react";
 // import useLocalStorage from "../functions/useLocalStorage";
-import DateFnsUtils from "@date-io/date-fns";
 import SnackbarHandler from "./SnackbarHandler";
-import addDays from "../functions/dateFunctions";
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
 
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
-import MultipleSelect from "./locationSelector";
+import SearchSelector from "./SearchSelector";
 import getBeds from "../functions/getBeds";
-import HutCardNew from "./HutCardNew";
+import loadFake from "../functions/loadFakeData";
+import HutCardDisplay from "./HutCardDisplay";
 
 const App = () => {
-  const [hutData, setHutData] = useState([]);
+  
+  const [hutData, setHutData] = useState();
 
-  const [selectedStartDate, setselectedStartDate] = useState(
-    new Date(3600000 * Math.floor(Date.now() / 3600000))
-  );
 
-  const [selectedEndDate, setselectedEndDate] = useState(
-    new Date(3600000 * Math.floor(addDays(Date.now(), 1) / 3600000))
-  );
-
-  const handleDateChange = (date, type) => {
-    if (type === "start") {
-      setselectedStartDate(date);
-    } else if (type === "end") {
-      setselectedEndDate(date);
-    }
-  };
 
   const [serverMessage, setServerMessage] = useState({
     type: "info",
@@ -39,17 +22,12 @@ const App = () => {
   });
 
   // Styles
-  const dateStyles = {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  };
 
   const cardStyle = {
     display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    // alignItems: "center",
   };
 
   return (
@@ -58,50 +36,25 @@ const App = () => {
         {...{ serverMessage, setServerMessage }}
         messagePosition={{ vertical: "bottom", horizontal: "right" }}
       />
-      <div style={dateStyles}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-            autoOk
-            variant="inline"
-            inputVariant="outlined"
-            label="From:"
-            format="dd.MM.yyyy"
-            value={selectedStartDate}
-            InputAdornmentProps={{ position: "start" }}
-            onChange={(date) => handleDateChange(date, "start")}
-          />
-          <KeyboardDatePicker
-            autoOk
-            variant="inline"
-            inputVariant="outlined"
-            label="To:"
-            format="dd.MM.yyyy"
-            value={selectedEndDate}
-            InputAdornmentProps={{ position: "start" }}
-            onChange={(date) => handleDateChange(date, "end")}
-          />
-        </MuiPickersUtilsProvider>
-      </div>
-      <MultipleSelect />
+      <SearchSelector />
       <div>
         <Button
           variant="contained"
           color="primary"
-          onClick={() => getBeds(setHutData)}
+          onClick={() => loadFake(setHutData)}
         >
           Search
         </Button>
       </div>
-      <div className="massDorms" style={cardStyle}>
-        {hutData.map((item, index) => (
-          <HutCardNew
-            key={index}
-            hutName={item["26.09.2020"]["massDorm"]["hutName"]}
-            hutText={item["26.09.2020"]["massDorm"]["hutId"]}
-            freeBeds={item["26.09.2020"]["massDorm"]["freeBeds"]}
-          />
-        ))}
+      <div className="test" style={cardStyle}>
+        {hutData ? (
+          <HutCardDisplay data={hutData} />
+        ) : (
+          <CircularProgress />
+        )
+        }
       </div>
+ 
     </div>
   );
 };

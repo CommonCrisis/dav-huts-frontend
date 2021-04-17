@@ -7,10 +7,9 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Chip from "@material-ui/core/Chip";
+import BedChip from "./BedChip";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
-import Avatar from "@material-ui/core/Avatar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,7 +51,7 @@ const HutCardNew = (props) => {
 
   return (
     <div className={classes.root}>
-      <ExpansionPanel defaultExpanded={false}>
+      <ExpansionPanel defaultExpanded={true}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1c-content"
@@ -68,14 +67,14 @@ const HutCardNew = (props) => {
           </div>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.details}>
-          <div className={classes.column} />
           <div className={classes.column}>
-            <Chip
-              size="large"
-              color="primary"
-              avatar={<Avatar>F</Avatar>}
-              label={props.freeBeds}
-            />
+            {Object.entries(props.freeBeds).map(([k, v]) => (
+              v && 
+              <BedChip
+                bedType={k}
+                bedCount={v}
+              />
+            ))}
           </div>
           <div className={clsx(classes.column, classes.helper)}>
             <Typography variant="caption">
