@@ -8,7 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import BedChip from "./BedChip";
-import styles from "../styles/style.hutCard.scss";
+import "../styles/hutCard.css";
 
 const useStyles = makeStyles({
   root: {
@@ -45,7 +45,7 @@ const HutCard = (props) => {
           <Typography variant="body2" color="textSecondary" component="p">
             Hut Id: {props.hutName ? props.hutName : 'Test'}
           </Typography>
-            <div className={styles.chipHolder}>
+            <div className="hutCard">
               {Object.entries(props.freeBeds).map(([k, v]) => (
                 // v && 
                 <BedChip

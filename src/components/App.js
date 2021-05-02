@@ -12,9 +12,6 @@ import HutCardDisplay from "./HutCardDisplay";
 const App = () => {
   
   const [hutData, setHutData] = useState();
-
-
-
   const [serverMessage, setServerMessage] = useState({
     type: "info",
     message: "Hi there - Welcome to DAV hut finder",
@@ -32,20 +29,11 @@ const App = () => {
 
   return (
     <div>
-      <SnackbarHandler
+      {/* <SnackbarHandler
         {...{ serverMessage, setServerMessage }}
         messagePosition={{ vertical: "bottom", horizontal: "right" }}
-      />
-      <SearchSelector />
-      <div>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => loadFake(setHutData)}
-        >
-          Search
-        </Button>
-      </div>
+      /> */}
+      <SearchSelector setHutData={setHutData}/>
       <div className="test" style={cardStyle}>
         {hutData ? (
           <HutCardDisplay data={hutData} />

@@ -1,12 +1,18 @@
 import axios from "axios";
 import { BEURL } from "../constants";
+import dateFormat from "dateformat";
 
-const getBeds = async (setHutData) => {
+
+const getBeds = async (setHutData, date, days, people, countries) => {
   const response = await axios.get(`${BEURL}/huts`, {
+  headers: { 
+    'Access-Control-Allow-Origin' : '*',
+      },
   params: {
-    date: '2021-6-20T00:00:00.000Z',
-    days: 3,
-    people: 2
+    start_date: dateFormat(date, "yyyy-mm-dd"),
+    days: days,
+    people: people,
+    countries: ['Germany']
   }
 });
   setHutData(response.data.data);

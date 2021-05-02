@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
@@ -12,6 +12,10 @@ const useStyles = makeStyles({
 function valuetext(value) {
   return `${value}`;
 }
+
+const changeHandler = (setter, event) => {
+  setter(event.target.value);
+};
 
 const CustomSlider = (props) => {
   const classes = useStyles();
@@ -30,6 +34,7 @@ const CustomSlider = (props) => {
         marks
         min={props.minValue}
         max={props.maxValue}
+        onChange={(e, v) => {props.setHandler(v)}}
       />
     </div>
   );
