@@ -1,4 +1,4 @@
-FROM node:13.12.0 as build-deps
+FROM node:10.20.1 as build-deps
 WORKDIR /usr/src/app
 COPY package.json yarn.lock ./
 RUN yarn --network-timeout 100000
